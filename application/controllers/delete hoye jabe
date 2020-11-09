@@ -1,0 +1,30 @@
+function safeURL($input)
+{
+	$out = "";
+	$input = strtolower($input);
+	for ($i = 0; $i < strlen($input); $i++) {
+		$working = ord(substr($input, $i, 1));
+		if ($working == 32) {
+			$out .= "-";
+		} else if ($working == 47) {
+			$out .= "-";
+		} else if (($working >= 97) && ($working <= 122)) {
+			$out .= chr($working);
+		} elseif (($working >= 48) && ($working <= 57)) {
+			$out .= chr($working);
+		}
+	}
+	$out = str_replace("--", "-", $out);
+	$out = str_replace("--", "-", $out);
+	$out = str_replace("--", "-", $out);
+	return $out;
+}
+$db->select("city.*, country.name as cname")->from("city")->join("country", "country.id=city.country_id");
+$result = $db->get()->result();
+
+foreach ($result as $row) {
+	$route[safeURL($row->cname) .'/' . safeURL($row->name) . '/(:any)/(:num)'] = "base/details/$1/$1";
+}
+require_once(BASEPATH . "database/DB.php");
+$db = &DB();
+require_once(APPPATH . 'helpers/our_helper.php');
